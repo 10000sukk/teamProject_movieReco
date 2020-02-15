@@ -1,0 +1,320 @@
+<html> 
+<head>
+    <style>
+    
+    body, html { 
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        .bgimg {
+            border: 0;
+            padding: 0; 
+            background-image: url(./images/fedora_and.jpg);
+            min-height: 100%;
+            background-position: center;
+            background-size: cover;
+        }
+    
+    
+    
+    </style>
+    <title>Movie Recommend</title>  
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="main2.css?a" />    
+    <!-- Google Font -->
+    <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,200italic,300,300italic,400italic,600,600italic,700,700italic,900' rel='stylesheet' type='text/css'>
+    
+    <link href="https://fonts.googleapis.com/css?family=Text+Me+One" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css?family=Exo+2|Text+Me+One" rel="stylesheet">
+</head>
+<body>
+        <div class="bgimg">
+        <header>
+            <div class="sticky-nav2">
+                <a id="mobile-nav" class="menu-nav" href="#menu-nav"></a>
+
+                <div id="logo">
+                    <a id="goUp"  href="index2.html" title="Movie Reco"><img src="./logo3.png"><h3>MovieReco</h3></a>
+                </div>
+
+            
+            
+		<!--1209h-->
+<form id="contact-form" class="contact-form" action="./first_page.html" method="get">
+                    <p class="contact-name">
+                        <input id="contact_name" type="text" placeholder="Search" value="" name="name">
+                    </p>
+                    <p class="contact-submit">
+                           <input id="contact-submit" type="submit" class="submit" value="Search" >
+                    </p>
+                </form>
+		<!--여기까지-->
+
+                <nav id="menu">
+                    <ul id="menu-nav">
+                        
+                        
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        
+        
+        <div id="blank"></div>
+        
+        
+        <div id="main">
+            <div id="inner-main">
+                <div id="description">
+                    <div class="title">
+                        <?php
+                            $id=$_GET['id'];
+
+                            $servername = "localhost"; //서버 이름
+                            $username = "inp"; //유저 이름
+                            $password = "Inp1234^^"; //비밀번호
+                            $database = "inp"; //데이터베이스 이름
+
+                            $conn = mysqli_connect( //mysql과 연결하는 문법
+                            $servername,
+                            $username,
+                            $password,
+                            $database);
+
+                            if(!$conn){
+                            die("Connection failed: ". mysqli_connect_error());
+                            }
+
+                            mysqli_set_charset($conn,"utf8");
+
+                            $call_sql="select * from inp_movie where id=$id";
+
+                            $call_movie = mysqli_query($conn,$call_sql);
+
+                            if(mysqli_num_rows($call_movie) > 0) {
+                                // output data of each row
+                                $i=0;
+                                while($movie = mysqli_fetch_assoc($call_movie)) {
+                                        if($i>0)
+                                            break;
+                                        $movie_des[1]=$movie["title"];
+                                        $movie_des[2]=$movie["genre1"];
+                                        $movie_des[3]=$movie["genre2"];
+                                        $movie_des[4]=$movie["genre3"];
+                                        $movie_des[5]=$movie["genre4"];
+                                        $movie_des[6]=$movie["genre5"];
+                                        $movie_des[7]=$movie["audits"];
+                                        $movie_des[8]=$movie["director"];
+                                        $movie_des[9]=$movie["actor1"];
+                                        $movie_des[10]=$movie["actor2"];
+                                        $movie_des[11]=$movie["actor3"];
+                                        $movie_des[12]=$movie["nation"];
+                                        $movie_des[13]=$movie["openDt"];
+                                        $movie_des[14]=$movie["url"];
+                                        $movie_des[15]=$movie["rate"];
+                                        $movie_des[16]=$movie["dirurl"];
+                                        $movie_des[17]=$movie["act1url"];
+                                        $movie_des[18]=$movie["act2url"];
+                                        $movie_des[19]=$movie["act3url"];
+                                        $movie_des[20]=$movie["story"];
+                                        $movie_des[21]=$movie["genreNum"];
+                                        $movie_des[22]=$movie["specialgenreNum"];
+                                        $movie_des[23]=$movie["simtitle1"];
+                                        $movie_des[24]=$movie["simtitle2"];
+                                        $movie_des[25]=$movie["simtitle3"];
+                                        $movie_des[26]=$movie["simurl1"];
+                                        $movie_des[27]=$movie["simurl2"];
+                                        $movie_des[28]=$movie["simurl3"];
+                                        
+					$i++;
+                                }
+                            } else{
+                                    echo "0 results";
+                            }
+                           
+                            
+                            echo $movie_des[1];
+                        ?>
+                    </div>
+                    <div class="des">
+
+			    <!--1209h-->
+                        <div class="postory">
+                            <div class="des-poster"><img src="<?php echo $movie_des[14]; ?>"  onerror="this.style.display='none'" alt="포스터"></div>
+                            <div class="story">
+                                <?php
+                                    echo $movie_des[20];
+                                ?>
+                            </div>
+                        </div>
+			<!--여기까지-->
+			<div class="des-contents">
+                            <div id="des-s" class="d1">
+                                    <div class="des-dir-title">감독</div>
+                                    <div class="des-dir-url" ><img src="<?php echo $movie_des[16]; ?>"  onerror="this.style.display='none'" alt="감독"></div>
+                                    <div class="des-dir-name">
+                                        <?php
+                                            echo $movie_des[8];
+                                        ?>
+                                    </div>
+                            </div>
+                            <div id="des-s" class="d2">
+                                <div class="d2-1">
+                                    <div class="des-audits"># 
+                                        <?php
+                                            echo $movie_des[7];
+                                        ?>
+                                    </div>
+                                    <div class="des-openDt"># 
+                                        <?php
+                                            echo $movie_des[13];
+                                        ?>
+                                    </div>
+                                    <div class="des-rate"># 
+                                        <?php
+                                            echo $movie_des[15];
+                                        ?>
+                                    </div>
+                                    <div class="des-nation"># 
+                                        <?php
+                                            echo $movie_des[12];
+                                        ?>
+                                    </div>
+                                </div>
+                                <div class="d2-2">
+                                    <div class="des-genre">#  <!--장르 수정해야함-->
+                                        <?php
+                                            echo $movie_des[2];
+                                        ?>
+                                    </div>
+                                    <div class="des-genre">#  <!--장르 수정해야함-->
+                                        <?php
+                                            echo $movie_des[3];
+                                        ?>
+                                    </div>
+                                    <div class="des-genre">#  <!--장르 수정해야함-->
+                                        <?php
+                                            echo $movie_des[4];
+                                        ?>
+                                    </div>
+                                    <div class="des-genre">#  <!--장르 수정해야함-->
+                                        <?php
+                                            echo $movie_des[5];
+                                        ?>
+                                    </div>
+                                    <div class="des-genre">#  <!--장르 수정해야함-->
+                                        <?php
+                                            echo $movie_des[6];
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="des-s" class="d3">
+                                <?php
+                                    echo $movie_des[1];
+                                ?>
+                            </div>
+                            <div id="des-s" class="d4">
+                                <div class="des-act-title">
+                                    출연진들
+                                </div>
+                                <div class="des-act">
+                                    <div class="des-act-url">
+                                            <img src="<?php echo $movie_des[17]; ?>"  onerror="this.style.display='none'" alt="배우1 이미지">
+                                    </div>
+                                    <div class="des-act-name">
+                                        <?php
+                                            echo $movie_des[9];
+                                        ?>
+                                    </div>
+                                </div>
+                                <div class="des-act">
+                                    <div class="des-act-url">
+                                        <img src="<?php echo $movie_des[18]; ?>"  onerror="this.style.display='none'" alt="배우2 이미지">
+                                    </div>
+                                    <div class="des-act-name">
+                                        <?php
+                                            echo $movie_des[10];
+                                        ?>
+                                    </div>
+                                </div>
+                                <div class="des-act">
+                                    <div class="des-act-url">
+                                        <img src="<?php echo $movie_des[19]; ?>" onerror="this.style.display='none'" alt="배우3 이미지">
+                                    </div>
+                                    <div class="des-act-name">
+                                        <?php
+                                            echo $movie_des[11];
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+			    <!--1209h-->
+ <div id="des-s" class="d5">
+                                <div class="sititle">비슷한 영화 추천</div>
+                                <div class="similar">
+                                    <div class="siposter">
+					    <a href="first_page.html?name=<?php echo $movie_des[23]; ?>" class="si-a">
+                                        <img src="<?php echo $movie_des[26]; ?>"  onerror="this.style.display='none'" alt="비슷한 영화 1 포스터">
+					    </a>   
+				    </div>
+                                    <div class="siname">
+                                        <?php echo $movie_des[23]; ?> 
+                                    </div>
+                                </div>
+                                <div class="similar">
+                                        <div class="siposter">
+						<a href="first_page.html?name=<?php echo $movie_des[24]; ?>" class="si-a">
+                                            <img src="<?php echo $movie_des[27]; ?>"  onerror="this.style.display='none'" alt="비슷한 영화 2 포스터">
+						</a> 
+					</div>
+                                        <div class="siname">
+                                            <?php echo $movie_des[24]; ?>
+                                        </div>
+                                </div>
+                                <div class="similar">
+                                        <div class="siposter">
+						<a href="first_page.html?name=<?php echo $movie_des[25]; ?>" class="si-a">
+                                            <img src="<?php echo $movie_des[28]; ?>"  onerror="this.style.display='none'" alt="비슷한 영화 3 포스터">
+						</a>
+					</div>
+                                        <div class="siname">
+                                            <?php echo $movie_des[25]; ?> 
+                                        </div>
+                                </div>
+                            </div>
+			    <!--여기까지-->
+                        </div>
+                    </div>
+                </div>
+                    
+                </div>
+            </div>
+      
+        
+        
+        <footer id="footer" class="index3-footer">
+					<div class="inner">
+							<h2>Movie Reco</h2>
+						<p>MovieReco provides a search for the genre of movies you want for free </p>
+
+						
+						<p class="copyright">&copy; Untitled. Design: <a href="https://templated.co">TEMPLATED</a>. Images: <a href="https://unsplash.com/">Unsplash</a></p>
+					</div>
+				</footer>
+
+
+        
+        
+            <script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.poptrox.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+        
+
+        </div>
+</body>
+</html>

@@ -1,0 +1,398 @@
+<html>
+    <head>
+            <title>Movie Recommend</title>
+            <meta charset="utf-8" />
+            <link rel="stylesheet" href="./main2.css?d222" />
+            <!-- Google Font -->
+            <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,200italic,300,300italic,400italic,600,600italic,700,700italic,900' rel='stylesheet' type='text/css'>
+        
+            <link href="https://fonts.googleapis.com/css?family=Text+Me+One" rel="stylesheet">
+        
+            <link href="https://fonts.googleapis.com/css?family=Exo+2|Text+Me+One" rel="stylesheet">
+    </head>
+<body>
+
+    
+    <?php
+        $genre=$_GET['장르'];
+
+        $servername = "localhost"; //서버 이름
+        $username = "inp"; //유저 이름
+        $password = "Inp1234^^"; //비밀번호
+        $database = "inp"; //데이터베이스 이름
+        
+        $conn = mysqli_connect( //mysql과 연결하는 문법
+            $servername,
+            $username,
+            $password,
+            $database);
+
+        if(!$conn){
+            die("Connection failed: ". mysqli_connect_error());
+        }
+        
+        mysqli_set_charset($conn,"utf8");
+
+        switch($genre){
+            case "액션":
+                $num=0;
+                break;
+            case "스릴러":
+                $num=1;
+                break;
+            case "드라마":
+            $num=2;
+                break;
+            case "전쟁":
+            $num=3;
+            break;
+            case "첩보":
+            $num=4;
+            break;
+            case "어드벤쳐":
+            $num=5;
+            break;
+            case "역사":
+            $num=6;
+            break;
+            case "서부극":
+            $num=7;
+            break;
+            case "판타지":
+            $num=8;
+            break;
+            case "풍자":
+            $num=9;
+            break;
+            case "코미디":
+            $num=10;
+            break;
+            case "로맨스":
+            $num=11;
+            break;
+            case "가족":
+            $num=12;
+            break;
+            case "음악":
+            $num=13;
+            break;
+            case "뮤지컬":
+            $num=14;
+            break;
+            case "범죄":
+            $num=15;
+             break;
+            case "미스터리":
+            $num=16;
+            break;
+            case "멜로":
+            $num=17;
+            break;
+            case "애니메이션":
+            $num=18;
+            break;
+            case "SF":
+            $num=19;
+            break;
+            case "종교":
+            $num=20;
+            break;
+            case "공포":
+            $num=21;
+            break;
+            case "댄스":
+            $num=22;
+            break;
+            case "슈퍼히어로":
+            $num=23;
+            break;
+            case "스포츠":
+            $num=24;
+            break;
+            case "에로틱":
+            $num=25;
+            break;
+            case "필름누아르":
+            $num=26;
+            break;
+            case "재난":
+            $num=27;
+            break;
+            case "정치":
+            $num=28;
+            break;
+            case "다큐":
+            $num=29;
+            break;
+            case "법정":
+            $num=30;
+            break;
+        }       
+
+        $conn = mysqli_connect( //mysql과 연결하는 문법
+            $servername,
+            $username,
+            $password,
+            $database);
+
+        if(!$conn){
+            die("Connection failed: ". mysqli_connect_error());
+        }
+        
+        mysqli_set_charset($conn,"utf8");
+        
+        $select_sql= "SELECT id,genreNum from inp_movie order by id desc"; //요청할 명령문
+        
+        $si_movie = mysqli_query($conn,$select_sql);
+        
+        $id=array(NULL);
+        $j=0;
+        $num=pow(2,$num);
+
+        if(mysqli_num_rows($si_movie) > 0) {
+            // output data of each row
+            foreach($si_movie as $simil){
+                if(((int)$simil['genreNum']&(int)$num)!=0){
+                  $id[$j]=$simil['id'];
+                  $j++;
+                }
+                
+                if($j>8) //장르별 영화 갯수 정하기
+                    break;
+            }
+        }
+    
+        mysqli_close($conn);
+    
+    ?>
+        <header>
+                <div class="sticky-nav2">
+                    <a id="mobile-nav" class="menu-nav" href="#menu-nav"></a>
+    
+                    <div id="logo">
+                        <a id="goUp"  href="index2.html" title="Movie Reco"><img src="./logo3.png"><h3>MovieReco</h3></a>
+                    </div>
+    
+    
+                   
+    
+                    <form id="contact-form" class="contact-form" action="http://127.0.0.1/first_page.html" method="get">
+                        <p class="contact-name">
+                            <input id="contact_name" type="text" placeholder="Search" value="" name="name">
+                        </p>
+                        <p class="contact-submit">
+                               <input id="contact-submit" type="submit" class="submit" value="Search" >
+                        </p>
+                    </form>
+    
+                    <nav id="menu">
+                        <ul id="menu-nav">
+                        </ul>
+                    </nav>
+                </div>
+            </header>
+    
+    
+            <div id="blank"></div>
+    
+            <div id="genre-title"><?php echo $genre; ?> 영화 추천 </div>
+            <div id="main">
+                <div id="inner-main">
+                            <div class="genre-movie">
+                                <div class="gposter">
+                                    <?php
+                                        $conn = mysqli_connect( //mysql과 연결하는 문법
+                                        $servername,
+                                        $username,
+                                        $password,
+                                        $database);
+                                
+                                        if(!$conn){
+                                            die("Connection failed: ". mysqli_connect_error());
+                                        }
+                                        
+                                        mysqli_set_charset($conn,"utf8");
+                                
+                                        $select_sql= "SELECT url,title from inp_movie where id=$id[0]"; //요청할 명령문
+                                        
+                                        $g_movie = mysqli_query($conn,$select_sql);
+                                        
+                                        while($url = mysqli_fetch_assoc($g_movie)) {
+                                                $gurl=$url['url'];
+                                                $gname=$url['title'];
+                                        }
+                                    ?>
+                                    <a href="first_page.html?name=<?php echo $gname; ?>" class="g-a">
+                                    <img class="gimg" src="<?php echo $gurl; ?>" alt="포스터">
+                                    </a>
+                                </div>
+                                <div class="gname">
+                                    <?php echo $gname; ?>
+                                </div>
+                            </div>
+                            <div class="genre-movie">
+                                <div class="gposter">
+                                        <?php
+                                        $conn = mysqli_connect( //mysql과 연결하는 문법
+                                        $servername,
+                                        $username,
+                                        $password,
+                                        $database);
+                                
+                                        if(!$conn){
+                                            die("Connection failed: ". mysqli_connect_error());
+                                        }
+                                        
+                                        mysqli_set_charset($conn,"utf8");
+                                
+                                        $select_sql= "SELECT url,title from inp_movie where id=$id[1]"; //요청할 명령문
+                                        
+                                        $g_movie = mysqli_query($conn,$select_sql);
+                                        
+                                        while($url = mysqli_fetch_assoc($g_movie)) {
+                                                $gurl=$url['url'];
+                                                $gname=$url['title'];
+                                        }
+                                    ?>
+                                    <a href="first_page.html?name=<?php echo $gname; ?>" class="g-a">
+                                        <img class="gimg" src="<?php echo $gurl; ?>" alt="포스터">
+                                    </a>
+                                </div>
+                                <div class="gname">
+                                        <?php echo $gname; ?>
+                                </div>
+                            </div>
+                            <div class="genre-movie">
+                                <div class="gposter">
+                                        <?php
+                                        $conn = mysqli_connect( //mysql과 연결하는 문법
+                                        $servername,
+                                        $username,
+                                        $password,
+                                        $database);
+                                
+                                        if(!$conn){
+                                            die("Connection failed: ". mysqli_connect_error());
+                                        }
+                                        
+                                        mysqli_set_charset($conn,"utf8");
+                                
+                                        $select_sql= "SELECT url,title from inp_movie where id=$id[2]"; //요청할 명령문
+                                        
+                                        $g_movie = mysqli_query($conn,$select_sql);
+                                        
+                                        while($url = mysqli_fetch_assoc($g_movie)) {
+                                                $gurl=$url['url'];
+                                                $gname=$url['title'];
+                                        }
+                                    ?>
+                                    <a href="first_page.html?name=<?php echo $gname; ?>" class="g-a">
+                                        <img class="gimg" src="<?php echo $gurl; ?>" alt="포스터">
+                                    </a>
+                                </div>
+                                <div class="gname">
+                                        <?php echo $gname; ?>
+                                </div>
+                            </div>
+                            <div class="genre-movie">
+                                <div class="gposter">
+                                        <?php
+                                        $conn = mysqli_connect( //mysql과 연결하는 문법
+                                        $servername,
+                                        $username,
+                                        $password,
+                                        $database);
+                                
+                                        if(!$conn){
+                                            die("Connection failed: ". mysqli_connect_error());
+                                        }
+                                        
+                                        mysqli_set_charset($conn,"utf8");
+                                
+                                        $select_sql= "SELECT url,title from inp_movie where id=$id[3]"; //요청할 명령문
+                                        
+                                        $g_movie = mysqli_query($conn,$select_sql);
+                                        
+                                        while($url = mysqli_fetch_assoc($g_movie)) {
+                                                $gurl=$url['url'];
+                                                $gname=$url['title'];
+                                        }
+                                    ?>
+                                    <a href="first_page.html?name=<?php echo $gname; ?>" class="g-a">
+                                        <img class="gimg" src="<?php echo $gurl; ?>" alt="포스터">
+                                    </a>
+                                </div>
+                                <div class="gname">
+                                        <?php echo $gname; ?>
+                                </div>
+                            </div>
+                            <div class="genre-movie">
+                                <div class="gposter">
+                                        <?php
+                                        $conn = mysqli_connect( //mysql과 연결하는 문법
+                                        $servername,
+                                        $username,
+                                        $password,
+                                        $database);
+                                
+                                        if(!$conn){
+                                            die("Connection failed: ". mysqli_connect_error());
+                                        }
+                                        
+                                        mysqli_set_charset($conn,"utf8");
+                                
+                                        $select_sql= "SELECT url,title from inp_movie where id=$id[4]"; //요청할 명령문
+                                        
+                                        $g_movie = mysqli_query($conn,$select_sql);
+                                        
+                                        while($url = mysqli_fetch_assoc($g_movie)) {
+                                                $gurl=$url['url'];
+                                                $gname=$url['title'];
+                                        }
+                                    ?>
+                                    <a href="first_page.html?name=<?php echo $gname; ?>" class="g-a">
+                                    <img class="gimg" src="<?php echo $gurl; ?>" alt="포스터">
+                                    </a>
+                                </div>
+                                <div class="gname">
+                                        <?php echo $gname; ?>
+                                </div>
+                            </div>
+                            <div class="genre-movie">
+                                <div class="gposter">
+                                        <?php
+                                        $conn = mysqli_connect( //mysql과 연결하는 문법
+                                        $servername,
+                                        $username,
+                                        $password,
+                                        $database);
+                                
+                                        if(!$conn){
+                                            die("Connection failed: ". mysqli_connect_error());
+                                        }
+                                        
+                                        mysqli_set_charset($conn,"utf8");
+                                
+                                        $select_sql= "SELECT url,title from inp_movie where id=$id[5]"; //요청할 명령문
+                                        
+                                        $g_movie = mysqli_query($conn,$select_sql);
+                                        
+                                        while($url = mysqli_fetch_assoc($g_movie)) {
+                                                $gurl=$url['url'];
+                                                $gname=$url['title'];
+                                        }
+                                    ?>
+                                    <a href="first_page.html?name=<?php echo $gname; ?>" class="g-a">
+                                    <img class="gimg" src="<?php echo $gurl; ?>" alt="포스터">
+                                    </a>
+                                </div>
+                                <div class="gname">
+                                        <?php echo $gname; ?>
+                                </div>
+                            </div>
+                </div>
+
+            </div>
+    
+</body>
+</html>
